@@ -1,6 +1,6 @@
 using CounterStrikeSharp.API.Core;
 
-namespace JailQueue.Services;
+namespace JailQueueApi.Interfaces;
 
 public interface IQueueService : IService
 {

@@ -1,7 +1,6 @@
 using CounterStrikeSharp.API.Modules.Utils;
-using JailQueue.Services;
 
-namespace JailQueue;
+namespace JailQueueApi.Interfaces;
 
 public interface IServerService : IService
 {

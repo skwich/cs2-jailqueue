@@ -1,4 +1,4 @@
-namespace JailQueue.Services;
+namespace JailQueueApi.Interfaces;
 
 public interface IService
 {
