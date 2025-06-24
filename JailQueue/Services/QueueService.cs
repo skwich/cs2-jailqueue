@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API.Core;
+using JailQueueApi.Interfaces;
 
 namespace JailQueue.Services;
 
