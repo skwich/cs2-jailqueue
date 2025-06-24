@@ -1,40 +1,34 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace JailQueue.Services;
 
-public static class QueueService
+public class QueueService : IQueueService
 {
-    public static bool[] IsPlayerInQueue = new bool[Server.MaxPlayers];
-    public static HashSet<CCSPlayerController> CTQueue = new();
+    private IServerService _serverService = new ServerService();
 
-    public static bool IsPlayerCanJoinToCT()
+    public bool CanJoinCT()
     {
-        if (ServerService.CTCount == 0)
+        var CTCount = _serverService.CountCT();
+        if (CTCount == 0)
             return true;
 
-        var TCountExcludeSelf = ServerService.TCount - 1;
-        return
-            Convert.ToDouble(TCountExcludeSelf) / Plugin.Instance.Config.Balance - ServerService.CTCount > 0;
+        double TCountMinusPlayer = _serverService.CountT() - 1;
+        var teamBalance = Plugin.GetInstance().Config.Balance;
+        return (TCountMinusPlayer / teamBalance - CTCount) > 0;
     }
 
-    public static void AddPlayerToCTQueue(CCSPlayerController player)
-        => CTQueue.Add(player);
+    public bool Contains(CCSPlayerController player)
+        => IQueueService.queue.Contains(player);
 
-    public static void RemovePlayerFromCTQueue(CCSPlayerController player)
-        => CTQueue.Remove(player);
+    public void JoinQueue(CCSPlayerController player)
+        => IQueueService.queue.Add(player);
 
-    public static void SetPlayerInQueue(CCSPlayerController player)
-        => ChangePlayerQueueState(player, true);
+    public void LeaveQueue(CCSPlayerController player)
+        => IQueueService.queue.Remove(player);
 
-    public static void RemovePlayerFromQueue(CCSPlayerController player)
-        => ChangePlayerQueueState(player, false);
+    public int GetPosition(CCSPlayerController player)
+        => IQueueService.queue.TakeWhile(x => x != player).Count() + 1;
 
-    public static int GetPlayerPlace(CCSPlayerController player)
-        => CTQueue.Select((p, i) => (p, i)).Where(pair => pair.p == player).First().i + 1;
-
-    private static void ChangePlayerQueueState(CCSPlayerController player, bool state)
-    {
-        IsPlayerInQueue[player.Index] = state;
-    }
+    public int Count()
+        => IQueueService.queue.Count;
 }

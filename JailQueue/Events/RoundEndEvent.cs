@@ -6,18 +6,18 @@ namespace JailQueue.Events;
 
 public class RoundEndEvent
 {
+    private IQueueService _queueService = new QueueService();
+
     public HookResult Handler(EventRoundEnd @event, GameEventInfo info)
     {
-        RoundService.IsRoundEnd = true;
-        if (QueueService.CTQueue.Count != 0 && QueueService.IsPlayerCanJoinToCT())
+        if (_queueService.Count() != 0 && _queueService.CanJoinCT())
         {
-            foreach (var player in QueueService.CTQueue)
+            foreach (var player in IQueueService.queue)
             {
-                if (!QueueService.IsPlayerCanJoinToCT())
+                if (!_queueService.CanJoinCT())
                     break;
-                
-                QueueService.RemovePlayerFromCTQueue(player);
-                QueueService.RemovePlayerFromQueue(player);
+
+                _queueService.LeaveQueue(player);
                 player.ChangeTeam(CsTeam.CounterTerrorist);
             }
         }

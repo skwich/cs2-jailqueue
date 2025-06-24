@@ -7,23 +7,21 @@ namespace JailQueue.Commands;
 
 public class CSS_t_Command
 {
-    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-    public void Handler(CCSPlayerController? player, CommandInfo info)
-    {
-        if (player == null || !player.IsValid)
-            return;
+    private IQueueService _queueService = new QueueService();
 
+    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
+    public void Handler(CCSPlayerController player, CommandInfo info)
+    {
         if (player.Team == CsTeam.CounterTerrorist)
         {
             player.ChangeTeam(CsTeam.Terrorist);
-            player.PrintToChat(Plugin.Instance.Localizer["GetBackToTeam"]);
         }
         else
         {
-            if (QueueService.IsPlayerInQueue[player.Index])
+            if (_queueService.Contains(player))
             {
-                QueueService.RemovePlayerFromCTQueue(player);
-                QueueService.RemovePlayerFromQueue(player);
+                _queueService.LeaveQueue(player);
+                info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.leave"]);
             }
         }
     }

@@ -7,35 +7,34 @@ namespace JailQueue.Commands;
 
 public class CSS_ct_Command
 {
-    public void Handler(CCSPlayerController? player, CommandInfo info)
-    {
-        if (player == null || !player.IsValid)
-            return;
+    private IServerService _serverService = new ServerService();
+    private IQueueService _queueService = new QueueService();
 
+    public void Handler(CCSPlayerController player, CommandInfo info)
+    {
         if (player.Team == CsTeam.CounterTerrorist)
         {
-            player.PrintToChat(Plugin.Instance.Localizer["AlreadyInCT"]);
+            info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.inCT"]);
             return;
         }
 
-        if (QueueService.IsPlayerInQueue[player.Index])
+        if (_queueService.Contains(player))
+            {
+                var position = _queueService.GetPosition(player);
+                info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.position", position]);
+                return;
+            }
+
+        if (_queueService.Contains(player) || _serverService.CountT() == 1)
         {
-            var place = QueueService.GetPlayerPlace(player);
-            player.PrintToChat(Plugin.Instance.Localizer["AlreadyInQueue", place]);
-            return;
-        }
-        
-        if (QueueService.IsPlayerCanJoinToCT() || ServerService.TCount == 1)
-        {
-            if (!player.PawnIsAlive || RoundService.IsRoundEnd || ServerService.CTCount == 0)
+            if (!player.PawnIsAlive || _serverService.CountCT() == 0)
             {
                 player.ChangeTeam(CsTeam.CounterTerrorist);
                 return;
             }
         }
 
-        player.PrintToChat(Plugin.Instance.Localizer["GetInQueue"]);
-        QueueService.AddPlayerToCTQueue(player);
-        QueueService.SetPlayerInQueue(player);
+        info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.join"]);
+        _queueService.JoinQueue(player);
     }
 }

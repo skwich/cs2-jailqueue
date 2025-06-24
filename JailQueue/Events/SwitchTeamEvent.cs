@@ -6,17 +6,19 @@ namespace JailQueue.Events;
 
 public class SwitchTeamEvent
 {
+    private IServerService _serverService = new ServerService();
+    private IQueueService _queueService = new QueueService();
+
     public HookResult Handler(EventSwitchTeam @event, GameEventInfo info)
     {
-        if (ServerService.CTCount == 0 && QueueService.CTQueue.Count != 0)
+        if (_serverService.CountCT() == 0 && _queueService.Count() != 0)
         {
-            foreach (var player in QueueService.CTQueue)
+            foreach (var player in IQueueService.queue)
             {
-                if (!QueueService.IsPlayerCanJoinToCT())
+                if (!_queueService.CanJoinCT())
                     break;
 
-                QueueService.RemovePlayerFromCTQueue(player);
-                QueueService.RemovePlayerFromQueue(player);
+                _queueService.LeaveQueue(player);
                 player.ChangeTeam(CsTeam.CounterTerrorist);
             }
         }

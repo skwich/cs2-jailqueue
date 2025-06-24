@@ -11,6 +11,9 @@ public class CommandsList
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
     public void CssCT(CCSPlayerController? player, CommandInfo info)
     {
+        if (player == null || !player.IsValid)
+            return;
+
         new CSS_ct_Command().Handler(player, info);
     }
 
@@ -18,6 +21,9 @@ public class CommandsList
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
     public void CssT(CCSPlayerController? player, CommandInfo info)
     {
+        if (player == null || !player.IsValid)
+            return;
+
         new CSS_t_Command().Handler(player, info);
     }
 
@@ -25,6 +31,6 @@ public class CommandsList
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void OnReloadConfig(CCSPlayerController? player, CommandInfo commandInfo)
     {
-        Plugin.Instance.Config.Reload();
+        Plugin.GetInstance().Config.Reload();
     }
 }

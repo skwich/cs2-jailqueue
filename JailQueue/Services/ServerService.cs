@@ -3,11 +3,9 @@ using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailQueue.Services;
 
-public static class ServerService
+public class ServerService : IServerService
 {
-    public static int CTCount => CountPlayerInTeam(CsTeam.CounterTerrorist);
-    public static int TCount => CountPlayerInTeam(CsTeam.Terrorist);
-    private static int CountPlayerInTeam(CsTeam team)
+    public int GetTeamCount(CsTeam team)
     {
         return Utilities
             .GetPlayers()

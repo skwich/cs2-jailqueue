@@ -6,16 +6,14 @@ namespace JailQueue.Events;
 
 public class PlayerDisconnectEvent
 {
+    private IQueueService _queueService = new QueueService();
+
     public HookResult Handler(EventPlayerDisconnect @event, GameEventInfo info)
     {
-        var player = @event.Userid;
-        if (player != null && player.IsValid)
+        var player = @event.Userid!;
+        if (_queueService.Contains(player) && player.Team != CsTeam.CounterTerrorist)
         {
-            if (QueueService.IsPlayerInQueue[player.Index] && player.Team != CsTeam.CounterTerrorist)
-            {
-                QueueService.RemovePlayerFromCTQueue(player);
-                QueueService.RemovePlayerFromQueue(player);
-            }
+            _queueService.LeaveQueue(player);
         }
 
         return HookResult.Continue;

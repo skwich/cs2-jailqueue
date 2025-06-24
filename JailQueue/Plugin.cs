@@ -10,14 +10,13 @@ public class Plugin : BasePlugin, IPluginConfig<JailQueueConfig>
 
     public override string ModuleName => "JailQueue";
 
-    public override string ModuleVersion => "1.2.0";
-    public override string ModuleAuthor => "akel21";
-    public static Plugin Instance { get; set; } = null!;
+    public override string ModuleVersion => "0.0.1";
+    public static Plugin _instance = null!;
     public JailQueueConfig Config { get; set; } = null!;
 
     public override void Load(bool hotReload)
     {
-        Instance = this;
+        _instance = this;
         RegisterConsoleCommandAttributeHandlers(new CommandsList());
         RegisterAttributeHandlers(new EventsList());
     }
@@ -26,4 +25,7 @@ public class Plugin : BasePlugin, IPluginConfig<JailQueueConfig>
     {
         Config = config;
     }
+
+    public static Plugin GetInstance()
+        => _instance;
 }
