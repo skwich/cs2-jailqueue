@@ -36,7 +36,7 @@ public interface IQueueService : IService
     /// <summary>
     /// Получить позицию игрока в очереди
     /// </summary>
-    /// <param name="player">Игрок, </param>
+    /// <param name="player">Игрок, позицию которого нужно посмотреть</param>
     /// <returns></returns>
     public int GetPosition(CCSPlayerController player);
 
