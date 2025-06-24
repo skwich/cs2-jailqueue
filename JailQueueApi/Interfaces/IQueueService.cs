@@ -5,7 +5,7 @@ namespace JailQueueApi.Interfaces;
 public interface IQueueService : IService
 {
     /// <summary>
-    /// Хеш-сет, в котором хранятся игроки, стоящие в очереди
+    /// Список, в котором хранятся игроки, стоящие в очереди
     /// </summary>
     public static readonly HashSet<CCSPlayerController> queue = new();
     
