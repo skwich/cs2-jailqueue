@@ -24,5 +24,6 @@ public interface ICTService : IService
     /// <summary>
     /// Убрать последнего зашедшего игрока за КТ из списка
     /// </summary>
-    public void RemoveLast();
+    /// <returns>Игрок, которого убрали из списка</returns>
+    public CCSPlayerController RemoveLast();
 }

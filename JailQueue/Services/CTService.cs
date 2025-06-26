@@ -11,6 +11,10 @@ public class CTService : ICTService
     public void Remove(CCSPlayerController player)
         => ICTService.CTList.Remove(player);
 
-    public void RemoveLast()
-        => Remove(ICTService.CTList.Last());
+    public CCSPlayerController RemoveLast()
+    {
+        var player = ICTService.CTList.Last();
+        Remove(player);
+        return player;
+    }
 }

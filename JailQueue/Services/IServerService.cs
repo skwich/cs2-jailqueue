@@ -1,8 +1,8 @@
 using CounterStrikeSharp.API.Modules.Utils;
 
-namespace JailQueueApi.Interfaces;
+namespace JailQueue.Services;
 
-public interface IServerService : IService
+public interface IServerService
 {
     /// <summary>
     /// Получить количество игроков определенной команды
@@ -22,4 +22,10 @@ public interface IServerService : IService
     /// </summary>
     /// <returns>Количество Т</returns>
     public int CountT() => GetTeamCount(CsTeam.Terrorist);
+
+    /// <summary>
+    /// Удалает игрока из все очередей и списков
+    /// </summary>
+    /// <param name="player">Игрок</param>
+    // public void RemovePlayerFromAllLists(CCSPlayerController player);
 }

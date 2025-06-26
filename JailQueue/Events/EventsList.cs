@@ -5,12 +5,12 @@ namespace JailQueue.Events;
 
 public class EventsList
 {
-    [GameEventHandler]
+    [GameEventHandler(HookMode.Pre)]
     public HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
     {
         if (@event.Userid == null)
             return HookResult.Continue;
-        
+
         var result = new PlayerDisconnectEvent().Handler(@event, info);
         return result;
     }
@@ -22,10 +22,10 @@ public class EventsList
         return result;
     }
 
-    [GameEventHandler]
-    public HookResult OnSwitchTeam(EventSwitchTeam @event, GameEventInfo info)
-    {
-        var result = new SwitchTeamEvent().Handler(@event, info);
-        return result;
-    }
+    // [GameEventHandler]
+    // public HookResult OnSwitchTeam(EventSwitchTeam @event, GameEventInfo info)
+    // {
+    //     var result = new SwitchTeamEvent().Handler(@event, info);
+    //     return result;
+    // }
 }

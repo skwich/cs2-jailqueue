@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands;
 using JailQueue.Commands;
 using JailQueue.Config;
 using JailQueue.Events;
@@ -19,6 +20,12 @@ public class Plugin : BasePlugin, IPluginConfig<JailQueueConfig>
         _instance = this;
         RegisterConsoleCommandAttributeHandlers(new CommandsList());
         RegisterAttributeHandlers(new EventsList());
+        AddCommandListener("jointeam", OnJoinTeam);
+    }
+
+    private HookResult OnJoinTeam(CCSPlayerController? player, CommandInfo commandInfo)
+    {
+        return HookResult.Handled;
     }
 
     public void OnConfigParsed(JailQueueConfig config)
