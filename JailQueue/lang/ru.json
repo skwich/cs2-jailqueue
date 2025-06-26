@@ -1,9 +1,8 @@
 {
     "jailQueue.inCT": "Вы уже находитесь в команде КТ",
-    "jailQueue.position": "Вы {0} в очереди",
+    "jailQueue.position": "Вы {0} в очереди:",
     "jailQueue.join": "Вы успешно встали в очередь в команду КТ",
     "jailQueue.leave": "Вы вышли из очереди в команду КТ",
     "jailQueue.unbalance": "Нарушен баланс между КТ и Т",
-    "jailQueue.forceSwitch": "Вы были переведены в другую команду по причине:",
-    "jailQueue.playersInQueue": "Игроки в очереди:"
+    "jailQueue.forceSwitch": "Вы были переведены в другую команду по причине:"
 }

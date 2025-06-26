@@ -34,7 +34,6 @@ public class CSS_ct
 
         var position = _queueService.GetPosition(player);
         info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.position", position]);
-        info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.playersInQueue"]);
         for (var index = 0; index < _queueService.Count(); index++)
         {
             info.ReplyToCommand($"{1 + index}. {_queueService.GetQueue()[index].PlayerName}");

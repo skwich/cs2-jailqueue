@@ -24,15 +24,13 @@ public class RoundEndEvent
         }
         else if (_queueService.Count() != 0 && _queueService.CanJoinCT())
         {
-            foreach (var player in _queueService.GetQueue())
+            do
             {
-                if (!_queueService.CanJoinCT())
-                    break;
-
+                var player = _queueService.GetQueue().First();
                 _queueService.LeaveQueue(player);
                 player.ChangeTeam(CsTeam.CounterTerrorist);
                 _ctService.Add(player);
-            }
+            } while (_queueService.Count() != 0 && _queueService.CanJoinCT());
         }
 
         return HookResult.Continue;
