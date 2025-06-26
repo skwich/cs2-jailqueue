@@ -7,30 +7,34 @@ namespace JailQueue.Commands;
 
 public class CommandsList
 {
-    [ConsoleCommand("css_ct")]
-    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-    public void CssCT(CCSPlayerController? player, CommandInfo info)
-    {
-        if (player == null || !player.IsValid)
-            return;
+    #region Player
+        [ConsoleCommand("css_ct")]
+        [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
+        public void CssCT(CCSPlayerController? player, CommandInfo info)
+        {
+            if (player == null || !player.IsValid)
+                return;
+    
+            new CSS_ct().Handler(player, info);
+        }
+    
+        [ConsoleCommand("css_t")]
+        [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
+        public void CssT(CCSPlayerController? player, CommandInfo info)
+        {
+            if (player == null || !player.IsValid)
+                return;
+    
+            new CSS_t().Handler(player, info);
+        }
+    #endregion
 
-        new CSS_ct_Command().Handler(player, info);
-    }
-
-    [ConsoleCommand("css_t")]
-    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-    public void CssT(CCSPlayerController? player, CommandInfo info)
-    {
-        if (player == null || !player.IsValid)
-            return;
-
-        new CSS_t_Command().Handler(player, info);
-    }
-
-    [ConsoleCommand("css_jq_reload_config")]
-    [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
-    public void OnReloadConfig(CCSPlayerController? player, CommandInfo commandInfo)
-    {
-        Plugin.GetInstance().Config.Reload();
-    }
+    #region Config
+        [ConsoleCommand("css_jq_reload_config")]
+        [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
+        public void OnReloadConfig(CCSPlayerController? player, CommandInfo commandInfo)
+        {
+            Plugin.GetInstance().Config.Reload();
+        }
+    #endregion
 }

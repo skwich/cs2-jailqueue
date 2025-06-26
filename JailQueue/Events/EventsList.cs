@@ -21,11 +21,4 @@ public class EventsList
         var result = new RoundEndEvent().Handler(@event, info);
         return result;
     }
-
-    // [GameEventHandler]
-    // public HookResult OnSwitchTeam(EventSwitchTeam @event, GameEventInfo info)
-    // {
-    //     var result = new SwitchTeamEvent().Handler(@event, info);
-    //     return result;
-    // }
 }

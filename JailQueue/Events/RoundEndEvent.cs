@@ -1,48 +1,48 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
-using JailQueueApi.Interfaces;
+using JailQueue.Interfaces;
 using JailQueue.Services;
+using Microsoft.Extensions.Localization;
 
 namespace JailQueue.Events;
 
 public class RoundEndEvent
 {
-    private IQueueService _queueService = new QueueService();
-    private IServerService _serverService = new ServerService();
-    private QueueHelper _queueHelper = new QueueHelper();
-    private ICTService _CTService = new CTService();
+    private QueueService _queueService = new();
+    private CTService _ctService = new();
+    private Plugin _plugin = Plugin.GetInstance();
+    private IStringLocalizer _localizer => _plugin.Localizer;
 
     public HookResult Handler(EventRoundEnd @event, GameEventInfo info)
-    {
-        if (_serverService.CountCT() > 1 && _queueHelper.HasCTDisbalance(_serverService))
+    {        
+        if (_queueService.AreTeamsUnbalanced())
         {
-            while (_queueHelper.HasCTDisbalance(_serverService))
+            do
             {
-                ForceChangeTeamAndDisbalanceNotify();
-            }
+                KickFromCT();
+            } while (_queueService.AreTeamsUnbalanced());
         }
         else if (_queueService.Count() != 0 && _queueService.CanJoinCT())
         {
-            foreach (var player in IQueueService.queue)
+            foreach (var player in _queueService.GetQueue())
             {
                 if (!_queueService.CanJoinCT())
                     break;
 
                 _queueService.LeaveQueue(player);
                 player.ChangeTeam(CsTeam.CounterTerrorist);
-                _CTService.Add(player);
+                _ctService.Add(player);
             }
         }
 
         return HookResult.Continue;
     }
 
-    private void ForceChangeTeamAndDisbalanceNotify()
+    private void KickFromCT()
     {
-        var player = _CTService.RemoveLast();
+        var player = _ctService.RemoveFirst();
         player.ChangeTeam(CsTeam.Terrorist);
-        var text = Plugin._instance.Localizer["jailQueue.forceSwitch"]
-            + Plugin._instance.Localizer["jailQueue.disbalance"];
-        player.PrintToChat(text);
+        var reason = _localizer["jailQueue.forceSwitch"] + " " + _localizer["jailQueue.unbalance"];
+        player.PrintToChat(reason);
     }
 }

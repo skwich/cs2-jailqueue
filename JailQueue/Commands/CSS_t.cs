@@ -2,22 +2,21 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailQueue.Services;
-using JailQueueApi.Interfaces;
 
 namespace JailQueue.Commands;
 
-public class CSS_t_Command
+public class CSS_t
 {
-    private IQueueService _queueService = new QueueService();
-    private ICTService _CTService = new CTService();
+    private QueueService _queueService = new();
+    private CTService _ctService = new();
 
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
     public void Handler(CCSPlayerController player, CommandInfo info)
-    {
+    {        
         if (player.Team == CsTeam.CounterTerrorist)
         {
             player.ChangeTeam(CsTeam.Terrorist);
-            _CTService.Remove(player);
+            _ctService.Remove(player);
             return;
         }
         

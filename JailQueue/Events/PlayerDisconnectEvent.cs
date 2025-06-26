@@ -1,13 +1,12 @@
 using CounterStrikeSharp.API.Core;
 using JailQueue.Services;
-using JailQueueApi.Interfaces;
 
 namespace JailQueue.Events;
 
 public class PlayerDisconnectEvent
 {
-    private IQueueService _queueService = new QueueService();
-    private ICTService _CTService = new CTService();
+    private QueueService _queueService = new();
+    private CTService _ctService = new();
 
     public HookResult Handler(EventPlayerDisconnect @event, GameEventInfo info)
     {
@@ -16,8 +15,8 @@ public class PlayerDisconnectEvent
         if (_queueService.Contains(player))
             _queueService.LeaveQueue(player);
 
-        if (ICTService.CTList.Contains(player))
-            _CTService.Remove(player);
+        if (_ctService.Contains(player))
+            _ctService.Remove(player);
 
         return HookResult.Continue;
     }
