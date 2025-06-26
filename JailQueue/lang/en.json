@@ -1,9 +1,0 @@
-{
-    "jailQueue.inCT": "You are already on the CT team",
-    "jailQueue.position": "You are {0} in the queue",
-    "jailQueue.join": "You have successfully joined the CT team queue",
-    "jailQueue.leave": "You have left the CT team queue",
-    "jailQueue.unbalance": "CT and T teams are unbalanced",
-    "jailQueue.forceSwitch": "You were switched to the other team due to:",
-    "jailQueue.playersInQueue": "Players in queue:"
-}
