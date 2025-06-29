@@ -13,9 +13,9 @@ public class CSS_ct
 
     public void Handler(CCSPlayerController player, CommandInfo info)
     {
-        if (player.Team == CsTeam.CounterTerrorist)
+        if (player.Team is CsTeam.CounterTerrorist or CsTeam.Spectator)
         {
-            info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.inCT"]);
+            info.ReplyToCommand(Plugin.GetInstance().Localizer["jailQueue.noAccess"]);
             return;
         }
 

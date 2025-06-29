@@ -1,4 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using JailQueue.Commands;
 using JailQueue.Config;
 using JailQueue.Events;
@@ -19,7 +22,14 @@ public class Plugin : BasePlugin, IPluginConfig<JailQueueConfig>
         _instance = this;
         RegisterConsoleCommandAttributeHandlers(new CommandsList());
         RegisterAttributeHandlers(new EventsList());
-        AddCommandListener("jointeam", (player, info) => HookResult.Handled);
+        AddCommandListener("jointeam", (player, info) => 
+        {
+            var teamNum = int.Parse(info.GetArg(1));
+            if (CsTeam.CounterTerrorist == (CsTeam)teamNum)
+                return HookResult.Handled;
+            
+            return HookResult.Continue;
+        });
     }
 
     public void OnConfigParsed(JailQueueConfig config)
